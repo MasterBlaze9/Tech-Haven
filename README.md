@@ -16,54 +16,34 @@ Projeto final de Base de Dados II
 
 ## Setup
 
-### Using Docker (Recommended)
+### Using Docker (Default & Supported Method)
+
+> **Note:** Docker is the default and only supported way to run this project. Manual setup is not maintained.
 
 1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/AndreGonc06/ProjetoFinalBDII.git
-    cd ProjetoFinalBDII
-    ```
+  
 
 2. **Configure environment variables:**
-    ```bash
-    cp .env.example .env
-    # Edit .env file with your credentials
-    ```
+  ```bash
+  cp .env.example .env
+  # Edit .env file with your credentials
+  ```
 
 3. **Start with Docker Compose:**
-    ```bash
-    docker-compose up -d
-    ```
+  ```bash
+  docker-compose up -d
+  ```
 
 4. **Access the application:**
-    - Web app: http://localhost:8000
-    - PostgreSQL: localhost:5432
-    - MongoDB: localhost:27017
+  - Web app: http://localhost:8000
+  - PostgreSQL: localhost:5432
+  - MongoDB: localhost:27017
 
-### Manual Setup
+---
 
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/AndreGonc06/ProjetoFinalBDII.git
-    cd ProjetoFinalBDII
-    ```
+If you encounter issues or need to run management commands, you can use Docker Compose exec:
 
-2. **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. **Configure environment variables:**
-    - Copy `.env.example` to `.env`
-    - Update database credentials in `.env`
-
-4. **Run Migrations:**
-    ```bash
-    cd Application/projetofinalbdII_grupo27
-    python manage.py migrate
-    ```
-
-5. **Start the Development Server:**
-    ```bash
-    python manage.py runserver
-    ```
+```bash
+docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py createsuperuser
+```
