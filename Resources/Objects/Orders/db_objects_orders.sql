@@ -14,7 +14,7 @@ AS
         fnCalculateOrderDeliveryStatus(orders.id) AS order_delivery_calculated_status
     FROM orders
         JOIN get_order_price ON orders.id = get_order_price.order_id
-        JOIN auth_user ON orders.ordered_by = auth_user.id
+        JOIN auth_user ON orders.ordered_by = auth_user.id;
 
 CREATE OR REPLACE FUNCTION fnGetOrderById(filter_order_id INT)
 RETURNS TABLE (

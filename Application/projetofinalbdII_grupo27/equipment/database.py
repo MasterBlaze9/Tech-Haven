@@ -12,8 +12,8 @@ def equipmenttype_GetList(is_admin):
             "SELECT * FROM viewGetEquipmentTypes ORDER BY viewGetEquipmentTypes.equipmenttype_designation;")
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmenttype_GetById(is_admin, equipmenttype_id):
@@ -27,8 +27,8 @@ def equipmenttype_GetById(is_admin, equipmenttype_id):
                        [equipmenttype_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmenttype_Create(is_admin, designation, created_by):
@@ -41,8 +41,8 @@ def equipmenttype_Create(is_admin, designation, created_by):
         cursor.execute("CALL spCreateEquipmentType(%s, %s);",
                        (designation, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmenttype_Update(is_admin, equipmenttype_id, designation):
@@ -55,8 +55,8 @@ def equipmenttype_Update(is_admin, equipmenttype_id, designation):
         cursor.execute("CALL spUpdateEquipmentType(%s, %s);",
                        ([equipmenttype_id, designation]))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmenttype_SoftDelete(is_admin, equipmenttype_id):
@@ -69,8 +69,8 @@ def equipmenttype_SoftDelete(is_admin, equipmenttype_id):
         cursor.execute("CALL spSoftDeleteEquipmentType(%s);",
                        [equipmenttype_id])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipment_GetList(is_admin):
@@ -83,8 +83,8 @@ def equipment_GetList(is_admin):
         cursor.execute("SELECT * FROM viewGetEquipments")
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipment_Create(is_admin, designation, description, equipmenttype_id, price, created_by):
@@ -97,8 +97,8 @@ def equipment_Create(is_admin, designation, description, equipmenttype_id, price
         cursor.execute("SELECT fncreateequipment(%s, %s, %s, %s, %s);",
                        (designation, description, equipmenttype_id, price, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipment_GetLastEquipmentId(is_admin):
@@ -112,8 +112,8 @@ def equipment_GetLastEquipmentId(is_admin):
             'SELECT * FROM fnGetLastEquipmentId();')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipment_GetById(is_admin, equipment_id):
@@ -126,8 +126,8 @@ def equipment_GetById(is_admin, equipment_id):
         cursor.execute('SELECT * FROM fnGetEquipmentById(%s);', [equipment_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def equipment_GetProductionsByEquipmentId(is_admin, equipment_id):
     try:
@@ -139,8 +139,8 @@ def equipment_GetProductionsByEquipmentId(is_admin, equipment_id):
         cursor.execute('SELECT * FROM fnGetEquipmentProductionsByEquipmentId(%s);', [equipment_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def equipment_GetToOrderList(is_admin):
     try:
@@ -152,8 +152,8 @@ def equipment_GetToOrderList(is_admin):
         cursor.execute('SELECT * FROM viewGetEquipmentsToOrder')
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipments_GetByProductionIdList(is_admin, equipment_production_id):
@@ -167,8 +167,8 @@ def equipments_GetByProductionIdList(is_admin, equipment_production_id):
             'SELECT * FROM fnGetEquipmentsByProductionIdsList(%s);', [equipment_production_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipment_Update(is_admin, equipment_id, designation, description, equipmenttype_id, price):
@@ -181,8 +181,8 @@ def equipment_Update(is_admin, equipment_id, designation, description, equipment
         cursor.execute("CALL spUpdateEquipment(%s, %s, %s, %s, %s);",
                        ([equipment_id, designation, description, equipmenttype_id, price]))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipment_SoftDelete(is_admin, equipment_id):
@@ -194,8 +194,8 @@ def equipment_SoftDelete(is_admin, equipment_id):
 
         cursor.execute("CALL spSoftDeleteEquipment(%s);", [equipment_id])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmentProduction_Create(is_admin, equipment_id, work_type_id, warehouse_id, quantity, start_date, end_date, cost, created_by):
@@ -208,8 +208,8 @@ def equipmentProduction_Create(is_admin, equipment_id, work_type_id, warehouse_i
         cursor.execute("CALL spCreateEquipmentProduction(%s, %s, %s, %s, %s, %s, %s, %s);",
                        (equipment_id, work_type_id, warehouse_id, quantity, start_date, end_date, cost, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmentProduction_GetLastEquipmentProductionId(is_admin):
@@ -222,8 +222,8 @@ def equipmentProduction_GetLastEquipmentProductionId(is_admin):
         cursor.execute('SELECT * FROM fnGetLastEquipmentProductionId()')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def equipmentProduction_Component_Create(is_admin, equipment_production_id, component_id, supplier_id, warehouse_id, quantity, created_by):
@@ -236,8 +236,8 @@ def equipmentProduction_Component_Create(is_admin, equipment_production_id, comp
         cursor.execute("CALL spCreateEquipmentProduction_Component(%s, %s, %s, %s, %s, %s);",
                        (equipment_production_id, component_id, supplier_id, warehouse_id, quantity, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 #! Client Orders
 
@@ -251,8 +251,8 @@ def clientOrder_GetLastClientOrderId(is_admin):
         cursor.execute('SELECT * FROM fnGetLastClientOrderId()')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrder_Create(is_admin, client_id, ordered_by, created_by):
     try:
@@ -264,8 +264,8 @@ def clientOrder_Create(is_admin, client_id, ordered_by, created_by):
         cursor.execute('CALL spCreateClientOrder(%s,%s,%s)',
                        [client_id, ordered_by, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrders_GetList(is_admin):
     try:
@@ -277,8 +277,8 @@ def clientOrders_GetList(is_admin):
         cursor.execute('SELECT * FROM viewGetClientOrders')
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrders_GetDetail(is_admin, client_order_id):
     try:
@@ -290,8 +290,8 @@ def clientOrders_GetDetail(is_admin, client_order_id):
         cursor.execute('SELECT * FROM fnGetClientOrderById(%s)', [client_order_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrders_GetEquipmentsToDeliver(is_admin, ids_list):
     try:
@@ -304,8 +304,8 @@ def clientOrders_GetEquipmentsToDeliver(is_admin, ids_list):
             'SELECT * FROM fnGetClientOrderEquipmentsToDeliver(%s)', [ids_list])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrders_GetClientOrderEquipmentsByClientOrderId(is_admin, client_order_id):
     try:
@@ -318,8 +318,8 @@ def clientOrders_GetClientOrderEquipmentsByClientOrderId(is_admin, client_order_
             'SELECT * FROM fnGetClientOrderEquipmentsByClientOrderId(%s)', [client_order_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrderEquipment_Create(is_admin, client_order_id, equipment_id, equipment_production_id, quantity, unit_price, created_by):
     try:
@@ -331,8 +331,8 @@ def clientOrderEquipment_Create(is_admin, client_order_id, equipment_id, equipme
         cursor.execute('CALL spCreateClientOrderEquipment(%s,%s,%s,%s,%s,%s)',
                        [client_order_id, equipment_id, equipment_production_id, quantity, unit_price, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def clientOrderDelivery_Create(is_admin, client_order_id, created_by):
@@ -345,8 +345,8 @@ def clientOrderDelivery_Create(is_admin, client_order_id, created_by):
         cursor.execute('CALL spCreateClientOrderDelivery(%s,%s)',
                        [client_order_id, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def clientOrderDelivery_Equipment_Create(is_admin, client_order_id, client_order_equipment_id, delivered_quantity, delivered_date, client_order_invoice_id, created_by):
@@ -359,8 +359,8 @@ def clientOrderDelivery_Equipment_Create(is_admin, client_order_id, client_order
         cursor.execute('CALL spCreateClientOrderDelivery_Equipment(%s,%s,%s,%s,%s,%s)',
                        [client_order_id, client_order_equipment_id, delivered_quantity, delivered_date, client_order_invoice_id, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 #! ClientOrderInvoice
 
@@ -375,8 +375,8 @@ def clientOrderInvoice_Create(is_admin, invoice_date, created_by):
         cursor.execute('CALL spCreateClientOrderInvoice(%s,%s)',
                        [invoice_date, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def clientOrderInvoice_GetLastClientOrderInvoiceId(is_admin):
     try:
@@ -388,8 +388,8 @@ def clientOrderInvoice_GetLastClientOrderInvoiceId(is_admin):
         cursor.execute('SELECT * FROM fnGetLastClientOrderInvoiceId()')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def clientOrderInvoice_GetListByClientOrderId(is_admin, client_order_id):
@@ -403,8 +403,8 @@ def clientOrderInvoice_GetListByClientOrderId(is_admin, client_order_id):
             'SELECT * FROM fnGetClientOrderInvoiceByClientOrderId(%s)', [client_order_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def clientOrderInvoice_GetDetailById(is_admin, client_order_id, clientorderinvoice_id):
@@ -418,7 +418,7 @@ def clientOrderInvoice_GetDetailById(is_admin, client_order_id, clientorderinvoi
             'SELECT * FROM fnGetClientOrderInvoiceDetailsById(%s,%s)', [client_order_id, clientorderinvoice_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 #! ------------------------------- // --------------------------------- !#

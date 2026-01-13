@@ -12,8 +12,6 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "./Resources/DDL Database:/sql"
-      - "./Resources/Objects:/sql_objects:ro"
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-factoryuser} -d ${POSTGRES_DB:-factorydb} -h localhost"]
@@ -28,6 +26,11 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build:
@@ -47,12 +50,46 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT:-5432}
       MONGO_URI: ${MONGO_URI:-mongodb://mongo:27017/}
       MONGO_DB_NAME: ${MONGO_DB_NAME:-projetofinal}
+      # Superuser defaults (can be overridden in .env)
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME:-admin}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL:-admin@example.com}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD:-adminpass}
     depends_on:
-      - db
-      - mongo
+      db:
+        condition: service_healthy
+      mongo:
+        condition: service_started
     ports:
       - "8000:8000"
-    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    command:
+      - "bash"
+      - "-c"
+      - |
+        echo "Starting Factory Manager initialization..." && \
+        bash /app/scripts/wait-for-it.sh db:5432 -- echo '✓ PostgreSQL ready' && \
+        bash /app/scripts/wait-for-it.sh mongo:27017 -- echo '✓ MongoDB ready' && \
+        echo "" && \
+        echo "Running Django migrations..." && \
+        python3 manage.py migrate && \
+        echo "✓ Migrations complete!" && \
+        echo "" && \
+        echo "Creating Django superuser..." && \
+        python3 manage.py shell < /app/scripts/create_superuser.py && \
+        echo "" && \
+        bash /app/scripts/init_database.sh && \
+        echo "" && \
+        echo "Seeding MongoDB..." && \
+        python3 /app/scripts/seed_mongo.py && \
+        echo "✓ MongoDB seeded!" && \
+        echo "" && \
+        echo "==========================================" && \
+        echo "Factory Manager is ready!" && \
+        echo "==========================================" && \
+        echo "Access the application at: http://localhost:8000" && \
+        echo "Admin credentials: ${DJANGO_SUPERUSER_USERNAME:-admin} / ${DJANGO_SUPERUSER_PASSWORD:-adminpass}" && \
+        echo "==========================================" && \
+        echo "" && \
+        python3 manage.py runserver 0.0.0.0:8000
 
 volumes:
   postgres_data:

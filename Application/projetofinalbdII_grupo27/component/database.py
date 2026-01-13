@@ -11,8 +11,8 @@ def component_GetList(is_admin):
         cursor.execute('SELECT * FROM viewGetComponents')
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Error in component_GetList: {e}")
+        return []
 
 
 def component_GetToOrderList(is_admin):
@@ -25,8 +25,8 @@ def component_GetToOrderList(is_admin):
         cursor.execute('SELECT * FROM viewGetComponentsToOrder')
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Error in component_GetToOrderList: {e}")
+        return []
 
 
 def component_GetById(is_admin, component_id):
@@ -39,8 +39,8 @@ def component_GetById(is_admin, component_id):
         cursor.callproc('fetch_component_details', [component_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_GetComponentForOrder(is_admin, component_id, supplier_id):
@@ -57,8 +57,8 @@ def component_GetComponentForOrder(is_admin, component_id, supplier_id):
 
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_GetOrderComponents(is_admin):
@@ -71,8 +71,8 @@ def component_GetOrderComponents(is_admin):
         cursor.execute("SELECT * FROM show_component_orders")
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_Create(is_admin, designation, price, created_by):
@@ -85,8 +85,8 @@ def component_Create(is_admin, designation, price, created_by):
         cursor.execute('CALL spCreateComponent(%s,%s,%s)',
                        [designation, price, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_Update(is_admin, component_id, designation, price):
@@ -99,8 +99,8 @@ def component_Update(is_admin, component_id, designation, price):
         cursor.execute('CALL spUpdateComponent(%s,%s,%s)',
                        [component_id, designation, price])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_SoftDelete(is_admin, component_id):
@@ -112,8 +112,8 @@ def component_SoftDelete(is_admin, component_id):
 
         cursor.execute("CALL spSoftDeleteComponent(%s);", [component_id])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_ImportJSON(is_admin, json_data, created_by):
@@ -126,8 +126,8 @@ def component_ImportJSON(is_admin, json_data, created_by):
         cursor.execute("CALL spImportComponents_JSON(%s,%s);",
                        [json_data, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_ExportJSON(is_admin):
@@ -140,8 +140,8 @@ def component_ExportJSON(is_admin):
         cursor.execute("SELECT * FROM fnExportComponents_JSON();")
         return cursor.fetchone()[0]
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_ImportXML(is_admin, xml_data, created_by):
@@ -154,8 +154,8 @@ def component_ImportXML(is_admin, xml_data, created_by):
         cursor.execute("CALL spImportComponents_XML(%s,%s);",
                        [xml_data, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def component_ExportXML(is_admin):
@@ -168,8 +168,8 @@ def component_ExportXML(is_admin):
         cursor.execute("SELECT * FROM fnExportComponents_XML();")
         return cursor.fetchone()[0]
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 #! Orders
 
@@ -184,8 +184,8 @@ def orders_Create(is_admin, ordered_by, created_by):
         cursor.execute('CALL spCreateOrder(%s,%s)',
                        [ordered_by, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orders_GetLastOrderId(is_admin):
@@ -198,8 +198,8 @@ def orders_GetLastOrderId(is_admin):
         cursor.execute('SELECT * FROM fnGetLastOrderId()')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orders_GetList(is_admin):
@@ -212,8 +212,8 @@ def orders_GetList(is_admin):
         cursor.execute('SELECT * FROM viewGetOrders')
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def orders_ExportJSON(is_admin):
     try:
@@ -225,8 +225,8 @@ def orders_ExportJSON(is_admin):
         cursor.execute("SELECT * FROM fnExportOrders_JSON();")
         return cursor.fetchone()[0]
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def orders_ExportXML(is_admin):
     try:
@@ -238,8 +238,8 @@ def orders_ExportXML(is_admin):
         cursor.execute("SELECT * FROM fnExportOrders_XML();")
         return cursor.fetchone()[0]
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orders_GetDetail(is_admin, order_id):
@@ -252,8 +252,8 @@ def orders_GetDetail(is_admin, order_id):
         cursor.execute('SELECT * FROM fnGetOrderById(%s)', [order_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orders_GetOrderComponentsByOrderId(is_admin, order_id):
@@ -267,8 +267,8 @@ def orders_GetOrderComponentsByOrderId(is_admin, order_id):
             'SELECT * FROM fnGetOrderComponentsByOrderId(%s)', [order_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orders_GetComponentsToDeliver(is_admin, ids_list):
@@ -282,8 +282,8 @@ def orders_GetComponentsToDeliver(is_admin, ids_list):
             'SELECT * FROM fnGetOrderComponentsToDeliver(%s)', [ids_list])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def orders_GetSuppliersByOrderComponent(is_admin, order_id, component_id):
     try:
@@ -296,8 +296,8 @@ def orders_GetSuppliersByOrderComponent(is_admin, order_id, component_id):
             'SELECT * FROM fnGetSuppliersByOrderComponent(%s,%s)', [order_id, component_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def orderComponent_GetById(is_admin, order_component_id):
     try:
@@ -310,8 +310,8 @@ def orderComponent_GetById(is_admin, order_component_id):
             'SELECT * FROM fnGetOrderComponentById(%s)', [order_component_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def orderComponent_Create(is_admin, order_id, component_id, quantity, unit_price, supplier_id, created_by):
     try:
@@ -323,8 +323,8 @@ def orderComponent_Create(is_admin, order_id, component_id, quantity, unit_price
         cursor.execute('CALL spCreateOrderComponent(%s,%s,%s,%s,%s,%s)',
                        [order_id, component_id, quantity, unit_price, supplier_id, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orderDelivery_Create(is_admin, order_id, created_by):
@@ -337,8 +337,8 @@ def orderDelivery_Create(is_admin, order_id, created_by):
         cursor.execute('CALL spCreateOrderDelivery(%s,%s)',
                        [order_id, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orderDelivery_Component_Create(is_admin, order_id, order_component_id, warehouse_id, delivered_quantity, delivered_date, orderinvoice_id, created_by):
@@ -351,8 +351,8 @@ def orderDelivery_Component_Create(is_admin, order_id, order_component_id, wareh
         cursor.execute('CALL spCreateOrderDelivery_Component(%s,%s,%s,%s,%s,%s,%s)',
                        [order_id, order_component_id, warehouse_id, delivered_quantity, delivered_date, orderinvoice_id, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 #! ------------------------------- // --------------------------------- !#
 
 #! OrderInvoice
@@ -368,8 +368,8 @@ def orderInvoice_Create(is_admin, invoice_date, created_by):
         cursor.execute('CALL spCreateOrderInvoice(%s,%s)',
                        [invoice_date, created_by])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 def orderInvoice_GetLastOrderInvoiceId(is_admin):
     try:
@@ -381,8 +381,8 @@ def orderInvoice_GetLastOrderInvoiceId(is_admin):
         cursor.execute('SELECT * FROM fnGetLastOrderInvoiceId()')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orderInvoice_GetListByOrderId(is_admin, order_id):
@@ -396,8 +396,8 @@ def orderInvoice_GetListByOrderId(is_admin, order_id):
             'SELECT * FROM fnGetOrderInvoiceByOrderId(%s)', [order_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def orderInvoice_GetDetailById(is_admin, order_id, orderinvoice_id):
@@ -411,7 +411,7 @@ def orderInvoice_GetDetailById(is_admin, order_id, orderinvoice_id):
             'SELECT * FROM fnGetOrderInvoiceDetailsById(%s,%s)', [order_id, orderinvoice_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 #! ------------------------------- // --------------------------------- !#

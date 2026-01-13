@@ -1,9 +1,9 @@
-# ProjetoFinalBDII
+# TechHaven
 
-Projeto final de Base de Dados II
+
 
 ## Table of Contents
-- [ProjetoFinalBDII](#projetofinalbdii)
+- [TechHaven](#TechHaven)
   - [Table of Contents](#table-of-contents)
   - [Technologies Used](#technologies-used)
   - [Setup](#setup)
@@ -35,15 +35,8 @@ Projeto final de Base de Dados II
   ```
 
 4. **Access the application:**
-  - Web app: http://localhost:8000
-  - PostgreSQL: localhost:5432
-  - MongoDB: localhost:27017
+  
+  - Access the application at: http://localhost:8000
+  - Use the Admin credentials: admin / adminpass
 
----
 
-If you encounter issues or need to run management commands, you can use Docker Compose exec:
-
-```bash
-docker-compose exec web python manage.py migrate
-docker-compose exec web python manage.py createsuperuser
-```

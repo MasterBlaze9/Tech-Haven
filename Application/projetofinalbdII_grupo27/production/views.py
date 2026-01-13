@@ -67,7 +67,7 @@ def softDeleteWorkType(request, worktype_id):
 @login_required(login_url='/user/login')
 def getProductionsList(request):
     data = production_GetList(request.user.is_staff)
-    return render(request, './production/productions_list.html', {'data': data})
+    return render(request, './production/productions_list.html', {'productions_list': data})
 
 
 @login_required(login_url='/user/login')
@@ -87,3 +87,49 @@ def createProduction(request):
     }
 
     return render(request, './production/create_update_production.html', {'form': initial_data})
+
+
+
+@login_required(login_url='/user/login')
+def editProduction(request, production_id):
+    productions = production_GetList(request.user.is_staff)
+    production = None
+    for p in productions:
+        if int(p[0]) == int(production_id):
+            production = p
+            break
+
+    if production is None:
+        return redirect('/production/production/list')
+
+    form = {
+        'production_id': production[0],
+        'designation': production[1],
+        'cost': production[2]
+    }
+
+    if request.method == 'POST':
+        # For now, simply redirect to the list. Database update SP may be added later.
+        return redirect('/production/production/list')
+
+    return render(request, './production/create_update_production.html', {'form': form})
+
+
+@login_required(login_url='/user/login')
+def softDeleteProduction(request, production_id):
+    productions = production_GetList(request.user.is_staff)
+    production = None
+    for p in productions:
+        if int(p[0]) == int(production_id):
+            production = p
+            break
+
+    if request.method == 'POST':
+        # For now, simply redirect to the list. Database delete SP may be added later.
+        return redirect('/production/production/list')
+
+    form = {
+        'designation': production[1] if production else ''
+    }
+
+    return render(request, './production/delete_worktype.html', {'form': form})

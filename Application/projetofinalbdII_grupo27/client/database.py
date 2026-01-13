@@ -2,11 +2,15 @@ from django.db import connections
 
 
 def client_GetList(is_admin):
-    if is_admin: cursor = connections["admin_psql"].cursor()
-    else: cursor = connections["default"].cursor()
-    
-    cursor.execute("SELECT * FROM viewGetClients")
-    return cursor.fetchall()
+    try:
+        if is_admin: cursor = connections["admin_psql"].cursor()
+        else: cursor = connections["default"].cursor()
+        
+        cursor.execute("SELECT * FROM viewGetClients")
+        return cursor.fetchall()
+    except Exception as e:
+        print(f"Error in client_GetList: {e}")
+        return []
 
 
 def client_GetById(is_admin, client_id):

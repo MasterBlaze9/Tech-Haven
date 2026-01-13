@@ -9,8 +9,8 @@ def warehouse_GetList(is_admin):
         cursor.execute("SELECT * FROM viewGetWarehouses")
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Error in warehouse_GetList: {e}")
+        return []
 
 
 def warehouse_GetById(is_admin, warehouse_id):
@@ -21,8 +21,8 @@ def warehouse_GetById(is_admin, warehouse_id):
         cursor.execute('SELECT * FROM fnGetWarehouseById(%s);', [warehouse_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def warehouse_Create(is_admin, designation, address, created_by):
@@ -33,8 +33,8 @@ def warehouse_Create(is_admin, designation, address, created_by):
         cursor.execute("CALL spCreateWarehouse(%s,%s,%s);",
                         (designation, address, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def warehouse_Update(is_admin, warehouse_id, designation, address):
@@ -45,8 +45,8 @@ def warehouse_Update(is_admin, warehouse_id, designation, address):
         cursor.execute("CALL spUpdateWarehouse(%s, %s, %s);",
                         ([warehouse_id, designation, address]))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def warehouse_SoftDelete(is_admin, warehouse_id):
@@ -56,5 +56,5 @@ def warehouse_SoftDelete(is_admin, warehouse_id):
         
         cursor.execute("CALL spSoftDeleteWarehouse(%s);", [warehouse_id])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []

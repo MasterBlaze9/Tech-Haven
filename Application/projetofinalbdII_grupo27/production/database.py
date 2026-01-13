@@ -2,11 +2,15 @@ from django.db import connections
 
 
 def worktype_GetList(is_admin):
-    if is_admin: cursor = connections["admin_psql"].cursor()
-    else: cursor = connections["default"].cursor()
-    
-    cursor.execute("SELECT * FROM viewGetWorkTypes")
-    return cursor.fetchall()
+    try:
+        if is_admin: cursor = connections["admin_psql"].cursor()
+        else: cursor = connections["default"].cursor()
+        
+        cursor.execute("SELECT * FROM viewGetWorkTypes")
+        return cursor.fetchall()
+    except Exception as e:
+        print(f"Error in worktype_GetList: {e}")
+        return []
 
 
 def worktype_GetById(is_admin, worktype_id):
@@ -41,8 +45,12 @@ def worktype_SoftDelete(is_admin, worktype_id):
 
 
 def production_GetList(is_admin):
-    if is_admin: cursor = connections["admin_psql"].cursor()
-    else: cursor = connections["default"].cursor()
-    
-    cursor.execute("SELECT * FROM viewgetproduction")
-    return cursor.fetchall()
+    try:
+        if is_admin: cursor = connections["admin_psql"].cursor()
+        else: cursor = connections["default"].cursor()
+        
+        cursor.execute("SELECT * FROM viewGetEquipmentProductions")
+        return cursor.fetchall()
+    except Exception as e:
+        print(f"Error in production_GetList: {e}")
+        return []

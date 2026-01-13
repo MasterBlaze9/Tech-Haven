@@ -5,9 +5,14 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including postgresql-client for psql
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential gcc libpq-dev && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        gcc \
+        libpq-dev \
+        postgresql-client \
+        bash && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install

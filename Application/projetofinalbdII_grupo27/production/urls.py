@@ -9,4 +9,6 @@ urlpatterns = [
     path("worktype/delete/<int:worktype_id>/",views.softDeleteWorkType, name="delete_worktype"),
     path("production/list/",views.getProductionsList, name="list_production"),
     path("production/create/",views.createProduction, name="create_production"),
+    path('production/edit/<int:production_id>/', views.editProduction, name='edit_production'),
+    path('production/delete/<int:production_id>/', views.softDeleteProduction, name='delete_production'),
 ]

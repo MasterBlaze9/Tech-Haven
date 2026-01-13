@@ -11,8 +11,8 @@ def supplier_GetList(is_admin):
         cursor.execute("SELECT * FROM viewGetSuppliers")
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Error in supplier_GetList: {e}")
+        return []
 
 
 def supplier_GetById(is_admin, supplier_id):
@@ -25,8 +25,8 @@ def supplier_GetById(is_admin, supplier_id):
         cursor.execute('SELECT * FROM fnGetSupplierById(%s);', [supplier_id])
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def supplier_Create(is_admin, name, address, fiscal_number, created_by):
@@ -39,8 +39,8 @@ def supplier_Create(is_admin, name, address, fiscal_number, created_by):
         cursor.execute("CALL spCreateSupplier(%s,%s,%s,%s);",
                        (name, address, fiscal_number, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def supplier_GetLastSupplierId(is_admin):
@@ -53,8 +53,8 @@ def supplier_GetLastSupplierId(is_admin):
         cursor.execute('SELECT * FROM fnGetLastSupplierId()')
         return cursor.fetchone()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def supplier_Update(is_admin, supplier_id, name, address, fiscal_number):
@@ -67,8 +67,8 @@ def supplier_Update(is_admin, supplier_id, name, address, fiscal_number):
         cursor.execute("CALL spUpdateSupplier(%s, %s, %s, %s);",
                        ([supplier_id, name, address, fiscal_number]))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def supplier_SoftDelete(is_admin, supplier_id):
@@ -80,8 +80,8 @@ def supplier_SoftDelete(is_admin, supplier_id):
 
         cursor.execute("CALL spSoftDeleteSupplier(%s);", [supplier_id])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 #! Supplier_component
@@ -96,8 +96,8 @@ def supplierComponent_Create(is_admin, supplier_id, component_id, created_by):
         cursor.execute("CALL spCreateSupplierComponent(%s,%s,%s);",
                        (supplier_id, component_id, created_by))
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 #! -- Functions to retrieve components from database to associate them to a supplier -- !#
 
 
@@ -111,8 +111,8 @@ def component_GetList(is_admin):
         cursor.execute('SELECT * FROM viewGetComponents')
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 
 
 def supplier_GetComponents_SelectedOrToSelect(is_admin, supplier_id):
@@ -126,8 +126,8 @@ def supplier_GetComponents_SelectedOrToSelect(is_admin, supplier_id):
             'SELECT * FROM fnGetComponentsToBeSelected_SupplierBySupplierId(%s);', [supplier_id])
         return cursor.fetchall()
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
 #! ------------------------------- // --------------------------------- !#
 
 def supplierComponent_DeleteBySupplierId(is_admin, supplier_id):
@@ -139,5 +139,5 @@ def supplierComponent_DeleteBySupplierId(is_admin, supplier_id):
 
         cursor.execute("CALL spDeleteSupplierComponentsBySupplierId(%s);", [supplier_id])
     except Exception as e:
-        index_to_cut = str(e).find("CONTEXT")
-        return e.args[0][0:index_to_cut - 1]
+        print(f"Database error: {e}")
+        return []
