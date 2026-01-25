@@ -127,11 +127,11 @@ DATABASES = {
 # ======================
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "/opt/render/project/src/Application/staticfiles"
 
-# Local development static folder
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
+
 STATICFILES_DIRS = [
-    str(BASE_DIR.parent / "static"),
+    str(BASE_DIR / "static"),
 ]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
