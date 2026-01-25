@@ -14,9 +14,13 @@ SECRET_KEY = os.environ.get(
     "django-insecure-dev-only"
 )
 
-DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = ["*"]
+
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "projetofinalbdII_grupo27.settings"
+)
 
 
 # ======================
